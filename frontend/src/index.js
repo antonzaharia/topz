@@ -5,6 +5,7 @@ const main = document.querySelector("main");
 const addTop = document.getElementById("add-top");
 const addTopForm = document.getElementById("add-top-form")
 const addOptionButton = addTopForm.querySelector("a")
+const topDivs = document.getElementsByClassName("card-header")
 
 window.addEventListener('DOMContentLoaded', () => {
     addTop.addEventListener("click", function(){
@@ -47,18 +48,9 @@ addTopForm.addEventListener('submit', function(e){
         let newTopOptions = Option.createOptions(top["options"])
         let newTop = new Top(top["id"], top["title"], newTopOptions)
         newTop.loadTop()
-        showForm = false;
     })
-    
+    addTopForm.querySelector("form").reset();
 })
-let loadTop = function(top){
-console.log(top)
-}
-
-// addOptionButton.addEventListener('click', function(e){
-//     e.preventDefault()
-    
-// })
 
 const voteThisOn = function(btn){
     let span = document.createElement("span")
@@ -92,7 +84,59 @@ const voteTop = function(data) {
     Option.updateOptions(top, votedOption)
 }
 
+const addOption = function(event){
+    event.preventDefault();
+    let top = event.path[1]
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            "option_content": event.target[0].value,
+            "top_id": top.id
+        })
+    }
+    fetch(`http://localhost:3000/options`, configObj)
+    .then(response => response.json())
+    .then(option => createOption(option, top))
+    top.querySelector("form").reset();
+}
 
+const createOption = function(option, top) {
+    let allOptions = top.querySelectorAll("button");
+    let lastOption = allOptions[allOptions.length -1]
+    let newOption = new Option(option.id, option.content, option.votes)
+    newOption.loadOption(top, lastOption)
+
+}
+
+const deleteOption = function(event) {
+    let optionId = event.path[0].attributes[0].value
+    let top = event.path[2]
+    let deleteBtn = event.path[0]
+    let configObj = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            "option_id": optionId
+        })
+    }
+    fetch(`http://localhost:3000/options/${optionId}`, configObj)
+    .then(response => response.json())
+    .then(option => removeOption(optionId, top, deleteBtn))
+}
+
+const removeOption = function(id, top, deleteBtn){
+    let allOptions = top.getElementsByClassName("vote-button");
+    let option = Array.from(allOptions).find( option => option.id === id )
+    option.remove();
+    deleteBtn.remove();
+}
 
 // class createHTML {
 //     static button(appendTo, content){

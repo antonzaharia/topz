@@ -19,3 +19,10 @@ header {
 svg {
     transform: 2s;
 }
+.vote-button {
+    width: 90%;
+    display: inline-block;
+}
+.delete-button {
+    width: 10%;
+}

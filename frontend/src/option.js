@@ -18,19 +18,35 @@ class Option {
     static loadOptions(topOptions, whereTo) {
         let div = document.createElement("div")
         for (let option of topOptions){
-            let button = document.createElement("button")
-    
-            button.textContent = option.content
-            button.className = "list-group-item list-group-item-action list-group-item-secondary"
-            button.setAttribute("id", option.id)
-            button.setAttribute("onmouseover", "voteThisOn(this)")
-            button.setAttribute("onmouseout", "voteThisOut(this)")
-            button.setAttribute("onclick", "voteThis(this)")
-    
-            div.appendChild(button)
-    
+            option.loadOption(div)
         }
         whereTo.appendChild(div);
+    }
+
+    loadOption(div, elementBefore) {
+        let button = document.createElement("button")
+    
+        button.textContent = this.content
+        button.className = "list-group-item list-group-item-action list-group-item-secondary vote-button"
+        button.setAttribute("id", this.id)
+        button.setAttribute("onmouseover", "voteThisOn(this)")
+        button.setAttribute("onmouseout", "voteThisOut(this)")
+        button.setAttribute("onclick", "voteThis(this)")
+        
+        if(elementBefore){
+            elementBefore.parentNode.insertBefore(button, elementBefore.nextSibling);
+        } else {
+            div.appendChild(button)
+        }
+
+        if (this.votes <= 0 ) {
+            let deleteOption = document.createElement("button")
+            deleteOption.textContent = "X"
+            deleteOption.setAttribute("option-id", this.id)
+            deleteOption.className = "delete-button"
+            deleteOption.setAttribute("onclick", "deleteOption(event)")
+            button.parentNode.insertBefore(deleteOption, button.nextSibling);
+        }
     }
 
     updateOption(top, votedOption, whereTo) {

@@ -27,10 +27,26 @@ class Top {
             div.className = "card-header"
             div.setAttribute("id", this.id)
             div.appendChild(title);
-            main.appendChild(div);
-    
+            
             let allOptions = Option.createOptions(this.options)
             Option.loadOptions(allOptions, div);
+
+            let form = document.createElement("form");
+            let input = document.createElement("input");
+            let submit = document.createElement("input");
+
+            input.setAttribute("type", "text");
+            input.setAttribute("name", "option-content");
+            submit.setAttribute("type", "submit");
+            submit.value = "Add Option"
+            form.setAttribute("onsubmit", "addOption(event)")
+
+            form.appendChild(input);
+            form.appendChild(submit);
+            div.appendChild(form);
+            
+
+            main.appendChild(div);
     }
 
     totalVotes() {
