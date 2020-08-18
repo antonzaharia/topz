@@ -1,6 +1,21 @@
 body{
     background-color: bisque;
 }
-#title{
+header {
     text-align: center;
+}
+.center {
+    margin: 0 auto;
+}
+#add-top-form {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    background-color:#AAAAAA;
+    transform: 2s;
+}
+#add-top-form input {
+    margin-bottom: 10px;
+}
+svg {
+    transform: 2s;
 }
