@@ -3,4 +3,13 @@ class TopsController < ApplicationController
         tops = Top.all
         render json: tops
     end
+
+    def create
+        top = Top.new(title: params["top_title"])
+        top.options.build(content: params["option_1"], votes: 0)
+        top.options.build(content: params["option_2"], votes: 0)
+
+        top.save
+        render json: top
+    end
 end

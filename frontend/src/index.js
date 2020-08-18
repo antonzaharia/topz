@@ -4,8 +4,7 @@ let showForm = false;
 const main = document.querySelector("main");
 const addTop = document.getElementById("add-top");
 const addTopForm = document.getElementById("add-top-form")
-
-
+const addOptionButton = addTopForm.querySelector("a")
 
 window.addEventListener('DOMContentLoaded', () => {
     addTop.addEventListener("click", function(){
@@ -27,6 +26,39 @@ window.addEventListener('DOMContentLoaded', () => {
         Top.loadTops(allTops);
     })
 });
+
+addTopForm.addEventListener('submit', function(e){
+    e.preventDefault()
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            "top_title": e.path[0][0].value,
+            "option_1": e.path[0][1].value,
+            "option_2": e.path[0][2].value
+        })
+    }
+    fetch("http://localhost:3000/tops", configObj)
+    .then(response => response.json())
+    .then(top => {
+        let newTopOptions = Option.createOptions(top["options"])
+        let newTop = new Top(top["id"], top["title"], newTopOptions)
+        newTop.loadTop()
+        showForm = false;
+    })
+    
+})
+let loadTop = function(top){
+console.log(top)
+}
+
+// addOptionButton.addEventListener('click', function(e){
+//     e.preventDefault()
+    
+// })
 
 const voteThisOn = function(btn){
     let span = document.createElement("span")
@@ -53,12 +85,14 @@ const voteThis = function(btn){
     .then(response => response.json())
     .then(option => voteTop(option))
 }
-let voteTop = function(data) {
+const voteTop = function(data) {
     let top = new Top(data['top']['id'], data['top']['title'], data['topOptions'])
     let votedOption = new Option(data['updatedOption']['id'], data['updatedOption']['content'], data['updatedOption']['votes'])
 
     Option.updateOptions(top, votedOption)
 }
+
+
 
 // class createHTML {
 //     static button(appendTo, content){

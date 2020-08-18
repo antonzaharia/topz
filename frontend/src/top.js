@@ -33,6 +33,11 @@ class Top {
             Option.loadOptions(allOptions, div);
     }
 
+    totalVotes() {
+        let allVotes = this.options.map( option => parseInt(option.votes) )
+        return allVotes.reduce((memo, votes) => memo + votes)
+    }
+
 
 
 
