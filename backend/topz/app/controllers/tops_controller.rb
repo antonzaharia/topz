@@ -9,7 +9,12 @@ class TopsController < ApplicationController
         top.options.build(content: params["option_1"], votes: 0)
         top.options.build(content: params["option_2"], votes: 0)
 
-        top.save
-        render json: top
+        if top.save
+            render json: top
+        else
+            render json: { message: "Top title cannot be empty."}
+        end
     end
+
+
 end

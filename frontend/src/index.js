@@ -18,11 +18,8 @@ window.addEventListener('DOMContentLoaded', () => {
             addTop.querySelector("svg").style.transform = "rotateY(180deg)";
         }
     })
-    fetch("http://localhost:3000/tops")
-    .then(function(response){
-        return response.json();
-    })
-    .then(function(tops){
+    let link = "http://localhost:3000/tops"
+    Fetch.basic(link, function(tops){
         allTops = Top.createTops(tops)
         Top.loadTops(allTops);
     })
@@ -30,24 +27,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
 addTopForm.addEventListener('submit', function(e){
     e.preventDefault()
-    let configObj = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify({
-            "top_title": e.path[0][0].value,
-            "option_1": e.path[0][1].value,
-            "option_2": e.path[0][2].value
-        })
+    let body = {
+        "top_title": e.path[0][0].value,
+        "option_1": e.path[0][1].value,
+        "option_2": e.path[0][2].value
     }
-    fetch("http://localhost:3000/tops", configObj)
-    .then(response => response.json())
-    .then(top => {
-        let newTopOptions = Option.createOptions(top["options"])
-        let newTop = new Top(top["id"], top["title"], newTopOptions)
-        newTop.loadTop()
+    let link = "http://localhost:3000/tops"
+    Fetch.complex("POST", body, link, function(top){
+        if(option["message"]) {
+            Error.show(option["message"])
+        } else {
+            let newTopOptions = Option.createOptions(top["options"])
+            let newTop = new Top(top["id"], top["title"], newTopOptions)
+            newTop.loadTop()
+        }
     })
     addTopForm.querySelector("form").reset();
 })
@@ -63,44 +56,33 @@ const voteThisOut = function(btn){
     span.parentNode.removeChild(span)
 }
 const voteThis = function(btn){
-    let configObj = {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify({
-            "option_id": btn.id
-        })
-    }
-    fetch(`http://localhost:3000/options/${btn.id}`, configObj)
-    .then(response => response.json())
-    .then(option => voteTop(option))
+    let body = { "option_id": btn.id }
+    let link = `http://localhost:3000/options/${btn.id}`
+    Fetch.complex("PATCH", body, link, voteTop)
+
 }
 const voteTop = function(data) {
     let top = new Top(data['top']['id'], data['top']['title'], data['topOptions'])
     let votedOption = new Option(data['updatedOption']['id'], data['updatedOption']['content'], data['updatedOption']['votes'])
 
     Option.updateOptions(top, votedOption)
+    Error.notice(`You voted for ${votedOption.content} !`)
 }
 
 const addOption = function(event){
     event.preventDefault();
     let top = event.path[1]
-    let configObj = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify({
-            "option_content": event.target[0].value,
-            "top_id": top.id
-        })
-    }
-    fetch(`http://localhost:3000/options`, configObj)
-    .then(response => response.json())
-    .then(option => createOption(option, top))
+    let link = "http://localhost:3000/options"
+    let body = { "option_content": event.target[0].value,
+                 "top_id": top.id }
+
+    Fetch.complex("POST", body, link, function(option){ 
+        if(option["message"]) {
+            Error.show(option["message"])
+        } else {
+            createOption(option, top)
+        } 
+    })
     top.querySelector("form").reset();
 }
 
@@ -116,19 +98,9 @@ const deleteOption = function(event) {
     let optionId = event.path[0].attributes[0].value
     let top = event.path[2]
     let deleteBtn = event.path[0]
-    let configObj = {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify({
-            "option_id": optionId
-        })
-    }
-    fetch(`http://localhost:3000/options/${optionId}`, configObj)
-    .then(response => response.json())
-    .then(option => removeOption(optionId, top, deleteBtn))
+    body = { "option_id": optionId }
+    link = `http://localhost:3000/options/${optionId}`
+    Fetch.complex("DELETE", body, link, function(result){ removeOption(optionId, top, deleteBtn) })
 }
 
 const removeOption = function(id, top, deleteBtn){
@@ -136,13 +108,22 @@ const removeOption = function(id, top, deleteBtn){
     let option = Array.from(allOptions).find( option => option.id === id )
     option.remove();
     deleteBtn.remove();
+    Error.notice(`Option Removed`)
 }
 
-// class createHTML {
-//     static button(appendTo, content){
-//         let button = document.createElement('button');
-//         button.textContent = content;
-//         appendTo.appendChild(button);
-//     }
-// }
+const undoVote = function(event) {
+    let optionId = event.path[1].attributes[1].value
+    let votedTop = event.path[2]
+    link = `http://localhost:3000/options/${optionId}`
+    body = { "option_id": optionId, "message": "undo" }
+    Fetch.complex("PATCH", body, link, function(result){
+        let options = Option.createOptions(result["topOptions"])
+        let top = new Top(result["top"]["id"], result["top"]["title"], options)
+        top.loadTop();
+        votedTop.remove();
+        Error.notice("Vote Removed")
+    })
+    
+    
+}
 

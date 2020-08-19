@@ -37,16 +37,19 @@ class Top {
 
             input.setAttribute("type", "text");
             input.setAttribute("name", "option-content");
+            input.className = "form-control add-option-input"
             submit.setAttribute("type", "submit");
             submit.value = "Add Option"
+            submit.className = "btn btn-primary add-option-button"
             form.setAttribute("onsubmit", "addOption(event)")
+            form.className = "form-group"
 
             form.appendChild(input);
             form.appendChild(submit);
             div.appendChild(form);
             
 
-            main.appendChild(div);
+            main.insertBefore(div, main.firstChild);
     }
 
     totalVotes() {

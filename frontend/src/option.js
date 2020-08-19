@@ -74,7 +74,15 @@ class Option {
 
         if( this.id === votedOption.id ){
             optionDiv.style.color = "red"
+            optionDiv.setAttribute("option-id", votedOption.id)
             progBar.setAttribute("class", "progress-bar bg-danger")
+            let undo = document.createElement("button")
+            undo.setAttribute("href", "#")
+            undo.style.float = "right"
+            undo.className = "btn btn-danger"
+            undo.textContent = "Remove Vote"
+            undo.setAttribute("onclick", "undoVote(event)")
+            optionDiv.appendChild(undo)
         }
     }
 

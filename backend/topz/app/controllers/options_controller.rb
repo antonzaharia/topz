@@ -3,17 +3,25 @@ class OptionsController < ApplicationController
         top = Top.find_by(id: params["top_id"])
         top.options.build(content: params["option_content"], votes: 0)
 
-        top.save
-        render json: top.options.last
+        if top.save
+            render json: top.options.last
+        else
+            render json: { message: "Option cannot be empty."}
+        end
     end
     
     def update
         option = Option.find(params[:option_id])
-        option.votes = option.votes.to_i + 1
+        if params["message"] == "undo"
+            option.votes = option.votes.to_i - 1
+        else
+            option.votes = option.votes.to_i + 1
+        end
         option.save
-        topOption = {top: option.top, updatedOption: option, topOptions: option.top.options}
+        topOption = { top: option.top, updatedOption: option, topOptions: option.top.options }
 
         render json: topOption
+        
     end
 
     def destroy

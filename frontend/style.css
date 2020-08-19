@@ -26,3 +26,10 @@ svg {
 .delete-button {
     width: 10%;
 }
+.add-option-input {
+    width: 80%;
+    display: inline-block;
+}
+.add-option-button {
+    width: 20%;
+}
