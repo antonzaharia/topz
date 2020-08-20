@@ -69,18 +69,14 @@ class Top {
             if(option["message"]) {
                 Error.show(option["message"])
             } else {
-                Top.createOption(option, top)
+                let newOption = new Option(option["id"], option["content"], option["votes"])
+                newOption.createOption(top)
             } 
         })
         top.querySelector("form").reset();
     }
 
-    static createOption(option, top) {
-        let allOptions = top.querySelectorAll("button");
-        let lastOption = allOptions[allOptions.length -1]
-        let newOption = new Option(option.id, option.content, option.votes)
-        newOption.loadOption(top, lastOption)
-    }
+
 
 
 

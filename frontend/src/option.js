@@ -25,8 +25,8 @@ class Option {
 
     static removeOption(id, top, deleteBtn){
         let allOptions = top.getElementsByClassName("vote-button");
-        let option = Array.from(allOptions).find( option => option.id === id )
-        option.remove();
+        let optionHtml = Array.from(allOptions).find( option => option.id === id )
+        optionHtml.remove();
         deleteBtn.remove();
         Error.notice(`Option Removed`)
     }
@@ -38,6 +38,13 @@ class Option {
         const body = { "option_id": optionId }
         let link = `http://localhost:3000/options/${optionId}`
         Fetch.complex("DELETE", body, link, function(){ Option.removeOption(optionId, top, deleteBtn) })
+    }
+
+    createOption(top) {
+        let allOptions = top.querySelectorAll("button");
+        let lastOption = allOptions[allOptions.length -1]
+        let newOption = new Option(this.id, this.content, this.votes)
+        newOption.loadOption(top, lastOption)
     }
 
     loadOption(div, elementBefore) {
@@ -120,7 +127,6 @@ class Option {
         for( let option of options) {
             option.updateOption(top, votedOption, div)
         }
-        
     }
 
 }
