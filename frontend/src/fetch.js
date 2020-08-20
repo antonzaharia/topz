@@ -22,7 +22,8 @@ class Fetch {
         .then(response => response.json())
         .then(result => {
             callback(result)
-        }).catch(function() {
+        }).catch(function(err) {
+            console.log(err)
             Error.show("Please complete all the fields")
         });
     }

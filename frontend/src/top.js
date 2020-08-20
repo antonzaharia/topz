@@ -41,7 +41,8 @@ class Top {
             submit.setAttribute("type", "submit");
             submit.value = "Add Option"
             submit.className = "btn btn-primary add-option-button"
-            form.setAttribute("onsubmit", "addOption(event)")
+            // form.setAttribute("onsubmit", "addOption(event)")
+            form.setAttribute("onsubmit", "Top.addOption(event)")
             form.className = "form-group"
 
             form.appendChild(input);
@@ -57,6 +58,29 @@ class Top {
         return allVotes.reduce((memo, votes) => memo + votes)
     }
 
+    static addOption(event){
+        event.preventDefault();
+        let top = event.path[1]
+        let link = "http://localhost:3000/options"
+        let body = { "option_content": event.target[0].value,
+                     "top_id": top.id }
+    
+        Fetch.complex("POST", body, link, function(option){ 
+            if(option["message"]) {
+                Error.show(option["message"])
+            } else {
+                Top.createOption(option, top)
+            } 
+        })
+        top.querySelector("form").reset();
+    }
+
+    static createOption(option, top) {
+        let allOptions = top.querySelectorAll("button");
+        let lastOption = allOptions[allOptions.length -1]
+        let newOption = new Option(option.id, option.content, option.votes)
+        newOption.loadOption(top, lastOption)
+    }
 
 
 

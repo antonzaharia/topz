@@ -23,15 +23,32 @@ class Option {
         whereTo.appendChild(div);
     }
 
+    static removeOption(id, top, deleteBtn){
+        let allOptions = top.getElementsByClassName("vote-button");
+        let option = Array.from(allOptions).find( option => option.id === id )
+        option.remove();
+        deleteBtn.remove();
+        Error.notice(`Option Removed`)
+    }
+
+    static deleteOption(event) {
+        let optionId = event.path[0].attributes[0].value
+        let top = event.path[2]
+        let deleteBtn = event.path[0]
+        const body = { "option_id": optionId }
+        let link = `http://localhost:3000/options/${optionId}`
+        Fetch.complex("DELETE", body, link, function(){ Option.removeOption(optionId, top, deleteBtn) })
+    }
+
     loadOption(div, elementBefore) {
         let button = document.createElement("button")
     
         button.textContent = this.content
         button.className = "list-group-item list-group-item-action list-group-item-secondary vote-button"
         button.setAttribute("id", this.id)
-        button.setAttribute("onmouseover", "voteThisOn(this)")
-        button.setAttribute("onmouseout", "voteThisOut(this)")
-        button.setAttribute("onclick", "voteThis(this)")
+        button.setAttribute("onmouseover", "Vote.voteThisOn(this)")
+        button.setAttribute("onmouseout", "Vote.voteThisOut(this)")
+        button.setAttribute("onclick", "Vote.voteThis(this)")
         
         if(elementBefore){
             elementBefore.parentNode.insertBefore(button, elementBefore.nextSibling);
@@ -43,8 +60,8 @@ class Option {
             let deleteOption = document.createElement("button")
             deleteOption.textContent = "X"
             deleteOption.setAttribute("option-id", this.id)
-            deleteOption.className = "delete-button"
-            deleteOption.setAttribute("onclick", "deleteOption(event)")
+            deleteOption.className = "btn btn-danger delete-button"
+            deleteOption.setAttribute("onclick", "Option.deleteOption(event)")
             button.parentNode.insertBefore(deleteOption, button.nextSibling);
         }
     }
@@ -81,13 +98,13 @@ class Option {
             undo.style.float = "right"
             undo.className = "btn btn-danger"
             undo.textContent = "Remove Vote"
-            undo.setAttribute("onclick", "undoVote(event)")
+            undo.setAttribute("onclick", "Vote.undoVote(event)")
             optionDiv.appendChild(undo)
         }
     }
 
     static updateOptions(top, votedOption) {
-        let optionsSorted = top.options.sort((a, b) => (a.votes < b.votes) ? 1 : -1)
+        let optionsSorted = top.options.sort((a, b) => (parseInt(a.votes) < parseInt(b.votes)) ? 1 : -1)
         let htmlTops = document.getElementsByClassName("card-header")
         let div = Array.from(htmlTops).find(function(t){
             return parseInt(t.id) === top.id
