@@ -6,6 +6,7 @@ const addTop = document.getElementById("add-top");
 const addTopForm = document.getElementById("add-top-form")
 const addOptionButton = addTopForm.querySelector("a")
 const topDivs = document.getElementsByClassName("card-header")
+const year = document.getElementById("year")
 
 window.addEventListener('DOMContentLoaded', () => {
     addTop.addEventListener("click", function(){
@@ -23,6 +24,8 @@ window.addEventListener('DOMContentLoaded', () => {
         allTops = Top.createTops(tops)
         Top.loadTops(allTops);
     })
+    let date = new Date();
+    year.innerHTML = date.getFullYear();
 });
 
 addTopForm.addEventListener('submit', function(e){
@@ -40,5 +43,6 @@ addTopForm.addEventListener('submit', function(e){
     })
     addTopForm.querySelector("form").reset();
 })
+
 
 
