@@ -1,4 +1,7 @@
 class Error {
+    constructor(message) {
+        this.message = message
+    }
     static create(type, message) {
         let anyError = document.getElementById("error")
         let error = document.createElement("div")
@@ -13,10 +16,10 @@ class Error {
         }
         setTimeout(function(){ error.remove(); }, 5000);
     }
-    static show(message) {
-        this.create("alert alert-danger", message)
+    show() {
+        Error.create("alert alert-danger", this.message)
     }
-    static notice(message) {
-        this.create("alert alert-primary", message)
+    notice() {
+        Error.create("alert alert-primary", this.message)
     }
 }

@@ -37,11 +37,11 @@ class Top {
 
             input.setAttribute("type", "text");
             input.setAttribute("name", "option-content");
+            input.setAttribute("placeholder", "Enter New Option")
             input.className = "form-control add-option-input"
             submit.setAttribute("type", "submit");
             submit.value = "Add Option"
             submit.className = "btn btn-primary add-option-button"
-            // form.setAttribute("onsubmit", "addOption(event)")
             form.setAttribute("onsubmit", "Top.addOption(event)")
             form.className = "form-group"
 
@@ -67,7 +67,8 @@ class Top {
     
         Fetch.complex("POST", body, link, function(option){ 
             if(option["message"]) {
-                Error.show(option["message"])
+                let error = new Error(option["message"])
+                error.show();
             } else {
                 let newOption = new Option(option["id"], option["content"], option["votes"])
                 newOption.createOption(top)

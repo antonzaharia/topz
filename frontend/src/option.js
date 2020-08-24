@@ -28,7 +28,8 @@ class Option {
         let optionHtml = Array.from(allOptions).find( option => option.id === id )
         optionHtml.remove();
         deleteBtn.remove();
-        Error.notice(`Option Removed`)
+        let error = new Error(`Option Removed`)
+        error.notice();
     }
 
     static deleteOption(event) {
@@ -63,13 +64,16 @@ class Option {
             div.appendChild(button)
         }
 
-        if (this.votes <= 0 ) {
-            let deleteOption = document.createElement("button")
-            deleteOption.textContent = "X"
-            deleteOption.setAttribute("option-id", this.id)
-            deleteOption.className = "btn btn-danger delete-button"
-            deleteOption.setAttribute("onclick", "Option.deleteOption(event)")
-            button.parentNode.insertBefore(deleteOption, button.nextSibling);
+        
+        let deleteOption = document.createElement("button")
+        deleteOption.textContent = "X"
+        deleteOption.setAttribute("option-id", this.id)
+        deleteOption.className = "btn btn-danger delete-button"
+        deleteOption.setAttribute("onclick", "Option.deleteOption(event)")
+        button.parentNode.insertBefore(deleteOption, button.nextSibling);
+
+        if (this.votes > 0 ) {
+            deleteOption.setAttribute("disabled", "")
         }
     }
 

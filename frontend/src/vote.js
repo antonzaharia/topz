@@ -9,7 +9,8 @@ class Vote {
             let top = new Top(result["top"]["id"], result["top"]["title"], options)
             top.loadTop();
             votedTop.remove();
-            Error.notice("Vote Removed")
+            let error = new Error("Vote Removed")
+            error.notice();
         })
     }
 
@@ -36,6 +37,7 @@ class Vote {
         let votedOption = new Option(data['updatedOption']['id'], data['updatedOption']['content'], data['updatedOption']['votes'])
     
         Option.updateOptions(top, votedOption)
-        Error.notice(`You voted for ${votedOption.content} !`)
+        let error = new Error(`You voted for ${votedOption.content} !`)
+        error.notice();
     }
 }

@@ -24,7 +24,8 @@ class Fetch {
             callback(result)
         }).catch(function(err) {
             console.log(err)
-            Error.show("Please complete all the fields")
+            let error = new Error("Please complete all the fields")
+            error.show();
         });
     }
 }
