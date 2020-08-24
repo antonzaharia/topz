@@ -18,7 +18,7 @@ In your terminal, run 'bundle install' to install all required gems.
 In your terminal, type 'rake db:seed' to fill up the database with 3 tops.
 # How to run the program
 In your terminal, type 'rails s' to start the server.
-In your browser, visit: http://localhost:3000/index.html to visit the homepage.
+Open: /frontend/index.html to visit the homepage.
 Files information
 '/backend/db/migrate' has all the migrations files
 '/backend/config' has the setup environment
@@ -32,7 +32,7 @@ Files information
 '/frontend/src' has all the javascript files
 
 # Usage
-In your terminal, type 'rake db:seed' to fill up the database with 3 tops. In your terminal, type 'rails s' to start the server. In your browser, visit: http://localhost:3000/index.html to visit the homepage.
+In your terminal, type 'rake db:seed' to fill up the database with 3 tops. In your terminal, type 'rails s' to start the server. In your browser, open /frontend/index.html to visit the homepage.
 
 
 Visit the index file and checkout the tops that are already created. Choose any top and vote for any option to see a ranking of all the options expressed in percentage.
