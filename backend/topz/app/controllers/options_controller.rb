@@ -2,9 +2,9 @@ class OptionsController < ApplicationController
     def create
         top = Top.find_by(id: params["top_id"])
         top.options.build(content: params["option_content"], votes: 0)
-
+        option = top.options.last
         if top.save
-            render json: top.options.last
+            render json: OptionSerializer.new(option).as_json
         else
             render json: { message: "Option cannot be empty."}
         end

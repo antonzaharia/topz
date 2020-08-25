@@ -7,7 +7,8 @@ class Top {
     static createTops(tops){
         let allTops = [];
         for(let top of tops){
-            let newTop = new Top(top["id"], top["title"], top["options"])
+            // let newTop = new Top(top["id"], top["title"], top["options"])
+            let newTop = new Top(...Object.values(top))
             allTops.push(newTop);
         }
         return allTops;
@@ -74,7 +75,8 @@ class Top {
                 let error = new Error(option["message"])
                 error.show();
             } else {
-                let newOption = new Option(option["id"], option["content"], option["votes"])
+                // let newOption = new Option(option["id"], option["content"], option["votes"])
+                let newOption = new Option(...Object.values(option))
                 newOption.createOption(top)
             } 
         })

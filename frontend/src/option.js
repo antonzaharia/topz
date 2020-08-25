@@ -7,7 +7,8 @@ class Option {
     static createOptions(options) {
         let allOptions = [];
         for (let option of options) {
-            let newOption = new Option(option.id, option.content, option.votes)
+            // let newOption = new Option(option.id, option.content, option.votes)
+            let newOption = new Option(...Object.values(option))
             if(newOption.votes === null){
                 newOption.votes = 0; 
                 // Setting option votes to 0 if is a new option
@@ -50,7 +51,8 @@ class Option {
     createOption(top) {
         let allOptions = top.querySelectorAll("button");
         let lastOption = allOptions[allOptions.length -1]
-        let newOption = new Option(this.id, this.content, this.votes)
+        // let newOption = new Option(this.id, this.content, this.votes)
+        let newOption = new Option(...Object.values(this))
         newOption.loadOption(top, lastOption)
     }
     // Function triggered when Add option button is pressed
