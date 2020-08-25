@@ -7,6 +7,7 @@ const addTopForm = document.getElementById("add-top-form")
 const addOptionButton = addTopForm.querySelector("a")
 const topDivs = document.getElementsByClassName("card-header")
 const year = document.getElementById("year")
+// Defining variables
 
 window.addEventListener('DOMContentLoaded', () => {
     addTop.addEventListener("click", function(){
@@ -19,14 +20,18 @@ window.addEventListener('DOMContentLoaded', () => {
             addTop.querySelector("svg").style.transform = "rotateY(180deg)";
         }
     })
+    // Toggle add new top form
     let link = "http://localhost:3000/tops"
     Fetch.basic(link, function(tops){
-        allTops = Top.createTops(tops)
+        let allTops = Top.createTops(tops)
         Top.loadTops(allTops);
     })
+    // Fetch call to load all the tops on the page
     let date = new Date();
     year.innerHTML = date.getFullYear();
+    // Footer year show
 });
+// Page load event
 
 addTopForm.addEventListener('submit', function(e){
     e.preventDefault()
@@ -42,6 +47,7 @@ addTopForm.addEventListener('submit', function(e){
             newTop.loadTop()
     })
     addTopForm.querySelector("form").reset();
+    // Add new top event handler
 })
 
 

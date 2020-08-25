@@ -9,12 +9,15 @@ class Option {
         for (let option of options) {
             let newOption = new Option(option.id, option.content, option.votes)
             if(newOption.votes === null){
-                newOption.votes = 0;
+                newOption.votes = 0; 
+                // Setting option votes to 0 if is a new option
             }
             allOptions.push(newOption);
         }
         return allOptions;
     }
+    // Creates an array of instances (argument an array of objects)
+
     static loadOptions(topOptions, whereTo) {
         let div = document.createElement("div")
         for (let option of topOptions){
@@ -22,6 +25,7 @@ class Option {
         }
         whereTo.appendChild(div);
     }
+    // Takes one array of instances and uses loadOption() method to create HTML 
 
     static removeOption(id, top, deleteBtn){
         let allOptions = top.getElementsByClassName("vote-button");
@@ -31,6 +35,7 @@ class Option {
         let error = new Error(`Option Removed`)
         error.notice();
     }
+    // Function triggered to delete the option HTML
 
     static deleteOption(event) {
         let optionId = event.path[0].attributes[0].value
@@ -40,6 +45,7 @@ class Option {
         let link = `http://localhost:3000/options/${optionId}`
         Fetch.complex("DELETE", body, link, function(){ Option.removeOption(optionId, top, deleteBtn) })
     }
+    // Function triggered to delete the option from the server
 
     createOption(top) {
         let allOptions = top.querySelectorAll("button");
@@ -47,6 +53,7 @@ class Option {
         let newOption = new Option(this.id, this.content, this.votes)
         newOption.loadOption(top, lastOption)
     }
+    // Function triggered when Add option button is pressed
 
     loadOption(div, elementBefore) {
         let button = document.createElement("button")
@@ -63,8 +70,8 @@ class Option {
         } else {
             div.appendChild(button)
         }
+        // Checking if there are other options or is the first one
 
-        
         let deleteOption = document.createElement("button")
         deleteOption.textContent = "X"
         deleteOption.setAttribute("option-id", this.id)
@@ -75,7 +82,9 @@ class Option {
         if (this.votes > 0 ) {
             deleteOption.setAttribute("disabled", "")
         }
+        // Checking if option has at least one vote to make the delete button disabled
     }
+    // Creates HTML of an option
 
     updateOption(top, votedOption, whereTo) {
         let percentage = Math.floor((parseInt(this.votes) * 100)/top.totalVotes())
@@ -112,7 +121,9 @@ class Option {
             undo.setAttribute("onclick", "Vote.undoVote(event)")
             optionDiv.appendChild(undo)
         }
+        // Checking for the voted option and modifying the style
     }
+    // Creates HTML of one option after the top is voted
 
     static updateOptions(top, votedOption) {
         let optionsSorted = top.options.sort((a, b) => (parseInt(a.votes) < parseInt(b.votes)) ? 1 : -1)
@@ -132,5 +143,6 @@ class Option {
             option.updateOption(top, votedOption, div)
         }
     }
+    // Function triggered when one option is voted and creates the ranking of the options
 
 }

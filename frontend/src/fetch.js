@@ -8,6 +8,7 @@ class Fetch {
             callback(tops)
         })
     }
+    // Fetch call with only link and callback as parameters 
 
     static complex(httpVerb, body={}, link, callback) {
         let configObj = {

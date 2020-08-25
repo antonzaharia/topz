@@ -12,12 +12,14 @@ class Top {
         }
         return allTops;
     }
+    // Creates an array of instances (argument an array of objects)
     
     static loadTops(tops){
         for(let top of tops){
             top.loadTop()
         }
     }
+    // Takes one array of instances and uses loadTop() method to create HTML 
 
     loadTop() {
         let div = document.createElement("div");
@@ -27,10 +29,10 @@ class Top {
             div.className = "card-header"
             div.setAttribute("id", this.id)
             div.appendChild(title);
-            
+            // Title of the top 
             let allOptions = Option.createOptions(this.options)
             Option.loadOptions(allOptions, div);
-
+            // Options of the top
             let form = document.createElement("form");
             let input = document.createElement("input");
             let submit = document.createElement("input");
@@ -48,15 +50,17 @@ class Top {
             form.appendChild(input);
             form.appendChild(submit);
             div.appendChild(form);
-            
+            // Add new option form
 
             main.insertBefore(div, main.firstChild);
     }
+    // Takes an instance of a top and creates HTML
 
     totalVotes() {
         let allVotes = this.options.map( option => parseInt(option.votes) )
         return allVotes.reduce((memo, votes) => memo + votes)
     }
+    // Returns the total of the votes of the top
 
     static addOption(event){
         event.preventDefault();
@@ -76,6 +80,7 @@ class Top {
         })
         top.querySelector("form").reset();
     }
+    // Function triggered when Add option button is pressed
 
 
 

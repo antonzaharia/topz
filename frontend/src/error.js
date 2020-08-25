@@ -16,10 +16,13 @@ class Error {
         }
         setTimeout(function(){ error.remove(); }, 5000);
     }
+    // Class method that creates html
     show() {
         Error.create("alert alert-danger", this.message)
     }
+    // Instance method that creates a red styled error
     notice() {
         Error.create("alert alert-primary", this.message)
     }
+    // Instance method that creates a blue styled error
 }
