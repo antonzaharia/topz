@@ -10,7 +10,7 @@ class TopsController < ApplicationController
         top.options.build(content: params["option_2"], votes: 0)
 
         if top.save
-            render json: top
+            render json: TopSerializer.new(top).as_json
         else
             render json: { message: "Top title cannot be empty."}
         end

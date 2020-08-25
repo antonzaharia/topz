@@ -42,8 +42,9 @@ addTopForm.addEventListener('submit', function(e){
     }
     let link = "http://localhost:3000/tops"
     Fetch.complex("POST", body, link, function(top){
-            let newTopOptions = Option.createOptions(top["options"])
-            let newTop = new Top(top["id"], top["title"], newTopOptions)
+            // let newTopOptions = Option.createOptions(top["options"])
+            // let newTop = new Top(top["id"], top["title"], newTopOptions)
+            let newTop = new Top(...Object.values(top))
             newTop.loadTop()
     })
     addTopForm.querySelector("form").reset();
