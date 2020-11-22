@@ -41,6 +41,6 @@ options_for_cars = [
     {content: "Nissan Leaf"},
     {content: "Jaguar I-Pace"}
 ]
-options_for_car.each do |o|
+options_for_cars.each do |o|
     top3.options.create(o)
 end
