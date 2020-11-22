@@ -2,7 +2,7 @@ class Vote {
     static undoVote(event) { 
         let optionId = event.path[1].attributes[1].value
         let votedTop = event.path[2]
-        let link = `http://localhost:3000/options/${optionId}`
+        let link = `https://gentle-reaches-42971.herokuapp.com/options/${optionId}`
         let body = { "option_id": optionId, "message": "undo" }
         Fetch.complex("PATCH", body, link, function(result){
             let options = Option.createOptions(result["topOptions"])
@@ -31,7 +31,7 @@ class Vote {
 
     static voteThis(btn){
         let body = { "option_id": btn.id }
-        let link = `http://localhost:3000/options/${btn.id}`
+        let link = `https://gentle-reaches-42971.herokuapp.com/options/${btn.id}`
         Fetch.complex("PATCH", body, link, this.voteTop)
     }
     // Fetch triggered when option is clicked

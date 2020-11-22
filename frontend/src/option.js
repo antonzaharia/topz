@@ -43,7 +43,7 @@ class Option {
         let top = event.path[2]
         let deleteBtn = event.path[0]
         const body = { "option_id": optionId }
-        let link = `http://localhost:3000/options/${optionId}`
+        let link = `https://gentle-reaches-42971.herokuapp.com/options/${optionId}`
         Fetch.complex("DELETE", body, link, function(){ Option.removeOption(optionId, top, deleteBtn) })
     }
     // Function triggered to delete the option from the server

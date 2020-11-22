@@ -21,7 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     })
     // Toggle add new top form
-    let link = "http://localhost:3000/tops"
+    let link = "https://gentle-reaches-42971.herokuapp.com/tops"
     Fetch.basic(link, function(tops){
         let allTops = Top.createTops(tops)
         Top.loadTops(allTops);
@@ -40,7 +40,7 @@ addTopForm.addEventListener('submit', function(e){
         "option_1": e.path[0][1].value,
         "option_2": e.path[0][2].value
     }
-    let link = "http://localhost:3000/tops"
+    let link = "https://gentle-reaches-42971.herokuapp.com//tops"
     Fetch.complex("POST", body, link, function(top){
             // let newTopOptions = Option.createOptions(top["options"])
             // let newTop = new Top(top["id"], top["title"], newTopOptions)

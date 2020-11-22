@@ -66,7 +66,7 @@ class Top {
     static addOption(event){
         event.preventDefault();
         let top = event.path[1]
-        let link = "http://localhost:3000/options"
+        let link = "https://gentle-reaches-42971.herokuapp.com/options"
         let body = { "option_content": event.target[0].value,
                      "top_id": top.id }
     

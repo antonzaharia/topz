@@ -1,5 +1,5 @@
 class Fetch {
-    static basic(link="http://localhost:3000", callback) {
+    static basic(link="https://gentle-reaches-42971.herokuapp.com", callback) {
         fetch(link)
         .then(function(response){
             return response.json();
